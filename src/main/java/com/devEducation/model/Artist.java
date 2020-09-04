@@ -1,13 +1,13 @@
 package com.devEducation.model;
 
-public class Artists {
+public class Artist {
 
     private String genre;
-    private String artists;
+    private String name;
 
-    public Artists(String genre, String artists) {
+    public Artist(String genre, String artists) {
         this.genre = genre;
-        this.artists = artists;
+        this.name = artists;
     }
 
     public String getGenre() {
@@ -19,18 +19,18 @@ public class Artists {
     }
 
     public String getArtists() {
-        return artists;
+        return name;
     }
 
     public void setArtists(String artists) {
-        this.artists = artists;
+        this.name = artists;
     }
 
     @Override
     public String toString() {
-        return "Artists{" +
+        return "Artist{" +
                 "genre='" + genre + '\'' +
-                ", artists='" + artists + '\'' +
+                ", artists='" + name + '\'' +
                 '}';
     }
 }

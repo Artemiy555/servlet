@@ -19,7 +19,7 @@ public class GenreServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        out.print(GetJson.getGenre("C:\\Users\\Artemiy\\Desktop\\sampleServlet\\sampleServlet\\genre.json")+"\n");
+        out.print(GetJson.getJson("C:\\Users\\Artemiy\\Desktop\\sampleServlet\\sampleServlet\\genre.json")+"\n");
         out.flush();
     }
 

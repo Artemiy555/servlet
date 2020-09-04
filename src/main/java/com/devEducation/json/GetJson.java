@@ -1,5 +1,9 @@
 package com.devEducation.json;
 
+import com.devEducation.model.Artist;
+import com.devEducation.model.Song;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -7,13 +11,18 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GetJson {
 
     public static void main(String[] args) {
-        System.out.println(getGenre("genre.json"));
-        System.out.println(getByParanetr("C:\\Users\\Artemiy\\Desktop\\sampleServlet\\sampleServlet\\artists.json","Rep"));
+//        System.out.println(getGenre("genre.json"));
+        //System.out.println(getArtistsByGenre("artists.json",""));
+        System.out.println(getArtistsByGenre("C:\\Users\\Artemiy\\Desktop\\sampleServlet\\sampleServlet\\song.json","Rap"));
+//        System.out.println(getByParanetr("C:\\Users\\Artemiy\\Desktop\\sampleServlet\\sampleServlet\\artists.json","rep"));
     }
 
 
@@ -49,23 +58,48 @@ public class GetJson {
         return String.valueOf(stringBuilder);
     }
 
-    public static String getByParanetr(String path, String gerge){
+    public static List<Artist> getArtistsByGenre(String path, String genre){
         StringBuilder stringBuilder = new StringBuilder();
+        List<Artist> artists= new ArrayList<>();
         try (FileReader reader = new FileReader(path)){
-            JSONParser jsonParser = new JSONParser();
 
-            Object obj = jsonParser.parse(reader);
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONArray genre= (JSONArray) jsonObject.get(gerge);
+            int c;
+            while((c=reader.read())!=-1){
+                stringBuilder.append((char) c);
+            }
+            System.out.println(stringBuilder);
+             artists = new Gson().fromJson(String.valueOf(stringBuilder),
+                            new TypeToken<List<Artist>>(){}.getType());
 
-            IntStream.range(0, genre.size())
-                    .forEach(i -> stringBuilder.append(genre.get(i)).append(",")
-                    );
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        return  artists.stream()
+                .filter(e->e.getGenre().equals(genre))
+                .collect(Collectors.toList());
 
-        return String.valueOf(stringBuilder);
+    }
+
+    public static List<Song> getSongByArtist(String path, String artist){
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Song> artists= new ArrayList<>();
+        try (FileReader reader = new FileReader(path)){
+
+            int c;
+            while((c=reader.read())!=-1){
+                stringBuilder.append((char) c);
+            }
+
+            artists = new Gson().fromJson(String.valueOf(stringBuilder),
+                    new TypeToken<List<Song>>(){}.getType());
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return  artists.stream()
+                .filter(e->e.getArtist().equals(artist))
+                .collect(Collectors.toList());
+
     }
 
 
