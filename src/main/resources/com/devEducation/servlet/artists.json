@@ -1,0 +1,14 @@
+[
+  {
+    "genre": "Hip-Hop",
+    "artist": ["Pharaoh","Face"]
+  },
+  {
+    "genre": "Rep",
+    "artist": ["Mnogoznaal","Lsp"]
+  },
+  {
+    "genre": "Rock",
+    "artist": ["Sent Molly"]
+  }
+]
