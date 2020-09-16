@@ -5,9 +5,9 @@ public class Artist {
     private String genre;
     private String name;
 
-    public Artist(String genre, String artists) {
+    public Artist(String name,String genre) {
         this.genre = genre;
-        this.name = artists;
+        this.name = name;
     }
 
     public String getGenre() {
@@ -18,19 +18,19 @@ public class Artist {
         this.genre = genre;
     }
 
-    public String getArtists() {
+    public String getName() {
         return name;
     }
 
-    public void setArtists(String artists) {
-        this.name = artists;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "Artist{" +
                 "genre='" + genre + '\'' +
-                ", artists='" + name + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

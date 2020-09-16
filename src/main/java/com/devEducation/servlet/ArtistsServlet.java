@@ -1,6 +1,7 @@
 package com.devEducation.servlet;
 
-import com.devEducation.json.GetJson;
+
+import com.devEducation.dao.MySqlDao;
 import com.devEducation.model.Artist;
 import com.google.gson.Gson;
 
@@ -21,20 +22,13 @@ public class ArtistsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-16");
+
         String genre = request.getParameter("genre");
-
-//        String path = "\\WEB-INF\\classes\\com\\devEducation\\servlet\\artists.json";
-//        ServletContext sc = request.getServletContext();
-//        String rp = sc.getRealPath(path);
-
-
-
-        List<Artist> artists = GetJson
-                .getArtistsByGenre("C:\\Users\\Artemiy\\Desktop\\sampleServlet\\sampleServlet\\artists.json",genre);
-
-        out.print(new Gson().toJson(artists));
-
+        if (genre != null) {
+            List<Artist> artists = new MySqlDao().selectArtist(genre);
+            out.print(new Gson().toJson(artists));
+        }
         out.flush();
     }
 
