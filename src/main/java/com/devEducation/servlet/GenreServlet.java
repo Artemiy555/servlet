@@ -1,10 +1,9 @@
 package com.devEducation.servlet;
 
-import com.devEducation.dao.MySqlDao;
+import com.devEducation.service.MySqlService;
 import com.devEducation.model.Genre;
 import com.google.gson.Gson;
 
-import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "GenreServlet", urlPatterns = "/getGenre")
 public class GenreServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1567877564;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -23,10 +22,11 @@ public class GenreServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-16");
         //получаем все жанры с бд и запихиваем в json
-        List<Genre> genres = new MySqlDao().selectGenre();
+        List<Genre> genres = new MySqlService().selectGenre();
         out.print(new Gson().toJson(genres));
         //out.print(GetJson.getJson("C:\\Users\\Artemiy\\Desktop\\sampleServlet\\sampleServlet\\genre.json")+"\n");
         out.flush();
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override

@@ -16,8 +16,7 @@ public class Song {
 
     private String year;
 
-    public Song() {
-    }
+    public Song() { }
 
     public Song(String name, String genre, String artist, String album, String link, String time, String year) {
         this.name = name;
@@ -36,8 +35,6 @@ public class Song {
     public void setYear(String year) {
         this.year = year;
     }
-
-
 
     public String getName() {
         return name;

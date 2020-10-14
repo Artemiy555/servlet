@@ -1,7 +1,7 @@
 package com.devEducation.servlet;
 
 import com.devEducation.SongTag;
-import com.devEducation.dao.MySqlDao;
+import com.devEducation.service.MySqlService;
 import com.devEducation.model.Album;
 import com.devEducation.model.Artist;
 import com.devEducation.model.Song;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "LinkServlet", urlPatterns = "/getLink")
 public class LinkServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1567877564;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -35,14 +35,15 @@ public class LinkServlet extends HttpServlet {
         List<Artist> artists = songs.stream().distinct().map(e -> new Artist(e.getArtist(), e.getGenre())).collect(Collectors.toList());
         List<Album> albums = songs.stream().distinct().map(e -> new Album(e.getArtist(), e.getAlbum(), e.getYear())).collect(Collectors.toList());
 
-        MySqlDao mySqlDao = new MySqlDao();
-        mySqlDao.deleteAll();
+        MySqlService mySqlService = new MySqlService();
+//        mySqlService.deleteAll();
 
-        mySqlDao.insertGenre(genres);
-        mySqlDao.insertArtist(artists);
-        mySqlDao.insertAlbum(albums);
-        mySqlDao.insertSong(songs);
+        mySqlService.insertGenre(genres);
+        mySqlService.insertArtist(artists);
+        mySqlService.insertAlbum(albums);
+        mySqlService.insertSong(songs);
         out.flush();
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override

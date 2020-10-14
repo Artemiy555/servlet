@@ -1,7 +1,7 @@
 package com.devEducation.servlet;
 
 
-import com.devEducation.dao.MySqlDao;
+import com.devEducation.service.MySqlService;
 import com.devEducation.model.Song;
 import com.google.gson.Gson;
 
@@ -16,19 +16,30 @@ import java.util.List;
 
 @WebServlet(name = "ArtistsSong", urlPatterns = "/getSong")
 public class SongServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1567877564;
+
+//    MySqlService mySqlDao = new MySqlService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PrintWriter out = response.getWriter();
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-16");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
         String artist = request.getParameter("artist");
+        MySqlService mySqlService =new MySqlService();
         if (artist != null) {
-            List<Song> songs = new MySqlDao().selectSong(artist);
-            out.print(new Gson().toJson(songs));
+            if(artist.equals("*")){
+                List<Song> songs = mySqlService.selectAllSong();
+                String str = new Gson().toJson(songs);
+                out.print(str);
+            }else {
+                List<Song> songs = mySqlService.selectSong(artist);
+                String str = new Gson().toJson(songs);
+                out.print(str);
+            }
         }
         out.flush();
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override

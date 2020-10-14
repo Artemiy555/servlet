@@ -14,10 +14,10 @@ public class MySqlUtil {
 
     public static Connection getDBConnection() {
         try {
-//            Class.forName("org.mysql.Driver");
+            //Class.forName("org.mysql.Driver");
             return DriverManager.getConnection(URL_MYSQL, USER,PASS );
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }

@@ -1,41 +1,37 @@
 package com.devEducation.servlet;
 
-
 import com.devEducation.service.MySqlService;
-import com.devEducation.model.Artist;
-import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
-@WebServlet(name = "ArtistsServlet", urlPatterns = "/getArtists")
-public class ArtistsServlet extends HttpServlet {
+
+@WebServlet(name = "RemoveSongServlet", urlPatterns = "/removeSong")
+public class RemoveSongServlet extends HttpServlet {
     private static final long serialVersionUID = 1567877564;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PrintWriter out = response.getWriter();
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-16");
-
-        String genre = request.getParameter("genre");
-        if (genre != null) {
-            List<Artist> artists = new MySqlService().selectArtist(genre);
-            out.print(new Gson().toJson(artists));
+        response.setCharacterEncoding("UTF-8");
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            new MySqlService().deleteSong(id);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            e.printStackTrace();
         }
-        out.flush();
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
     }
+
 }
 
 

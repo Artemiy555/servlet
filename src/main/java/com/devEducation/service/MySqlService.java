@@ -1,4 +1,4 @@
-package com.devEducation.dao;
+package com.devEducation.service;
 
 import com.devEducation.model.Album;
 import com.devEducation.model.Artist;
@@ -10,35 +10,22 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
+public class MySqlService {
 
-public class MySqlDao {
+    private static final Logger logger = Logger.getLogger(MySqlService.class.getSimpleName());
 
-    private static final Logger logger = Logger.getLogger(MySqlDao.class.getSimpleName());
-
-    private Connection getDBConnection() {
-        return MySqlUtil.getDBConnection();
-    }
-
-    private Connection c = getDBConnection();
-
+    private Connection c = MySqlUtil.getDBConnection();
 
     public void insertGenre(List<String> genres) {
 
         try {
 
-            Connection c = getDBConnection();
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO music.genre" +
                             "(name)" +
                             "VALUES (?)");
-
-//            ResultSet set = statement.executeQuery(
-//                    "INSERT INTO music.genre" +
-//                            "(name)" +
-//                            "VALUES ( ?)");
 
             for (String genre : genres) {
                 statement.setString(1, genre);
@@ -72,9 +59,9 @@ public class MySqlDao {
             }
             statement.close();
 
-//            for (Genre p : genres) {
-//                System.out.println("Получена запись: " + p);
-//            }
+            for (Genre p : genres) {
+                logger.info("Получена запись: " + p);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,7 +73,6 @@ public class MySqlDao {
     public void insertArtist(List<Artist> artists) {
 
         try {
-            Connection c = getDBConnection();
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO music.artist" +
                             "(name,genre)" +
@@ -135,7 +121,6 @@ public class MySqlDao {
     public void insertSong(List<Song> songs) {
 
         try {
-            Connection c = getDBConnection();
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO music.song" +
                             "(name,genre,artist,album,link,time)" +
@@ -151,7 +136,9 @@ public class MySqlDao {
                 logger.info("Создана запись: " + song);
                 try {
                     statement.execute();
-                }catch (Exception ignored){}
+                }catch (Exception ignored){
+                    System.out.println(song);
+                }
             }
 
             statement.clearParameters();
@@ -176,23 +163,51 @@ public class MySqlDao {
                     "FROM music.album,music.song where song.album = album.album and song.artist = ?");
 
             preparedStatement.setString(1, artist);
-            ResultSet set = preparedStatement.executeQuery();
-            while (set.next()) {
-                songs.add(new Song(
-                        set.getString(1),
-                        set.getString(2),
-                        set.getString(3),
-                        set.getString(4),
-                        set.getString(5),
-                        set.getString(6),
-                        set.getString(7)
-                        ));
-            }
-            statement.close();
+            exrcuteQuery(songs, statement, preparedStatement);
 
-            for (Song p : songs) {
-                logger.info("Получена запись: " + p);
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return songs;
+    }
+
+    private void exrcuteQuery(List<Song> songs, Statement statement, PreparedStatement preparedStatement) throws SQLException {
+        ResultSet set = preparedStatement.executeQuery();
+        while (set.next()) {
+            songs.add(new Song(
+                    set.getString(1),
+                    set.getString(2),
+                    set.getString(3),
+                    set.getString(4),
+                    set.getString(5),
+                    set.getString(6),
+                    set.getString(7)
+                    ));
+        }
+        statement.close();
+
+        for (Song p : songs) {
+            logger.info("Получена запись: " + p);
+        }
+    }
+
+    public List selectAllSong(){
+
+        List<Song> songs = new ArrayList<>();
+        try {
+            Statement statement = c.createStatement();
+            PreparedStatement preparedStatement = c.prepareStatement(
+                    "SELECT song.name," +
+                    "song.genre," +
+                    "song.artist," +
+                    "song.album," +
+                    "song.link," +
+                    "song.time," +
+                    "album.year " +
+                    "FROM music.album,music.song where song.album = album.album ");
+
+            exrcuteQuery(songs, statement, preparedStatement);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,7 +219,6 @@ public class MySqlDao {
     public void insertAlbum(List<Album> albums) {
 
         try {
-            Connection c = getDBConnection();
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO music.album" +
                             "(artist,album,year)" +
@@ -226,34 +240,7 @@ public class MySqlDao {
         }
     }
 
-    public List selectAlbum(){
 
-        List<Album> albums = new ArrayList<>();
-        try {
-            Statement statement = c.createStatement();
-            ResultSet set = statement.executeQuery(
-                    "SELECT * FROM music.album"
-            );
-
-            while (set.next()) {
-                albums.add(new Album(
-                        set.getString(2),
-                        set.getString(3),
-                        set.getString(4)
-                ));
-            }
-            statement.close();
-
-//            for (Album p : albums) {
-//                System.out.println("Получена запись: " + p);
-//            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return albums;
-    }
 
     public void deleteAll() {
         try {
@@ -283,4 +270,76 @@ public class MySqlDao {
             e.printStackTrace();
         }
     }
+
+    public void deleteSong(int id){
+
+        try  {
+            PreparedStatement statement =
+                    c.prepareStatement(
+                            "DELETE FROM music.song WHERE ID = ?"
+                    );
+            statement.setInt(1, id);
+            statement.execute();
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Song selectSongById(int id){
+            Song song = new Song();
+        try  {
+
+            PreparedStatement preparedStatement = c.prepareStatement("SELECT song.name," +
+                    "song.genre," +
+                    "song.artist," +
+                    "song.album," +
+                    "song.link," +
+                    "song.time," +
+                    "album.year " +
+                    "FROM music.album,music.song where song.album = album.album and song.id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            song.setName(resultSet.getString(1));
+            song.setGenre(resultSet.getString(2));
+            song.setArtist(resultSet.getString(3));
+            song.setAlbum(resultSet.getString(4));
+            song.setLink(resultSet.getString(5));
+            song.setTime(resultSet.getString(6));
+            song.setYear(resultSet.getString(7));
+
+
+
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return song;
+    }
+
+    public void updateSong(Song song,int id) {
+
+        try  {
+            PreparedStatement upd = c.
+                    prepareStatement(
+                            "UPDATE music.song SET name = ?, genre = ?, artist = ?, album = ? WHERE ID = ?");
+            upd.setString(1, song.getName());
+            upd.setString(2, song.getGenre());
+            upd.setString(3, song.getArtist());
+            upd.setString(4,song.getAlbum());
+            upd.setInt(5,id);
+            upd.execute();
+            logger.info("Обновленная запись: " + song);
+            upd.close();
+
+            logger.info("Обновление прошло успешно!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

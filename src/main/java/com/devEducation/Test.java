@@ -1,7 +1,5 @@
 package com.devEducation;
 
-import com.devEducation.dao.MySqlDao;
-import com.devEducation.model.Album;
 import com.devEducation.model.Artist;
 import com.devEducation.model.Song;
 
@@ -39,7 +37,7 @@ public class Test {
 //        System.out.println(albums);
 
 
-//        MySqlDao mySqlDao = new MySqlDao();
+//        MySqlService mySqlDao = new MySqlService();
 //        mySqlDao.deleteAll();
 //
 //        mySqlDao.insertGenre(genres);
