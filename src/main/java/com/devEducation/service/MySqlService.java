@@ -153,7 +153,8 @@ public class MySqlService {
         List<Song> songs = new ArrayList<>();
         try {
             Statement statement = c.createStatement();
-            PreparedStatement preparedStatement = c.prepareStatement("SELECT song.name," +
+            PreparedStatement preparedStatement = c.prepareStatement("SELECT song.id," +
+                    " song.name," +
                     "song.genre," +
                     "song.artist," +
                     "song.album," +
@@ -176,13 +177,14 @@ public class MySqlService {
         ResultSet set = preparedStatement.executeQuery();
         while (set.next()) {
             songs.add(new Song(
-                    set.getString(1),
+                    set.getInt(1),
                     set.getString(2),
                     set.getString(3),
                     set.getString(4),
                     set.getString(5),
                     set.getString(6),
-                    set.getString(7)
+                    set.getString(7),
+                    set.getString(8)
                     ));
         }
         statement.close();
@@ -198,7 +200,7 @@ public class MySqlService {
         try {
             Statement statement = c.createStatement();
             PreparedStatement preparedStatement = c.prepareStatement(
-                    "SELECT song.name," +
+                    "SELECT song.id, song.name," +
                     "song.genre," +
                     "song.artist," +
                     "song.album," +
@@ -271,14 +273,14 @@ public class MySqlService {
         }
     }
 
-    public void deleteSong(int id){
+    public void deleteSong(String name){
 
         try  {
             PreparedStatement statement =
                     c.prepareStatement(
-                            "DELETE FROM music.song WHERE ID = ?"
+                            "DELETE FROM music.song WHERE name = ?"
                     );
-            statement.setInt(1, id);
+            statement.setString(1, name);
             statement.execute();
 
             statement.close();
@@ -291,7 +293,7 @@ public class MySqlService {
             Song song = new Song();
         try  {
 
-            PreparedStatement preparedStatement = c.prepareStatement("SELECT song.name," +
+            PreparedStatement preparedStatement = c.prepareStatement("SELECT song.id, song.name," +
                     "song.genre," +
                     "song.artist," +
                     "song.album," +
@@ -302,16 +304,14 @@ public class MySqlService {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-
-            song.setName(resultSet.getString(1));
-            song.setGenre(resultSet.getString(2));
-            song.setArtist(resultSet.getString(3));
-            song.setAlbum(resultSet.getString(4));
-            song.setLink(resultSet.getString(5));
-            song.setTime(resultSet.getString(6));
-            song.setYear(resultSet.getString(7));
-
-
+            song.setId(resultSet.getInt(1));
+            song.setName(resultSet.getString(2));
+            song.setGenre(resultSet.getString(3));
+            song.setArtist(resultSet.getString(4));
+            song.setAlbum(resultSet.getString(5));
+            song.setLink(resultSet.getString(6));
+            song.setTime(resultSet.getString(7));
+            song.setYear(resultSet.getString(8));
 
             preparedStatement.close();
 

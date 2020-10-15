@@ -1,4 +1,4 @@
-package com.devEducation.servlet;
+package com.devEducation.servletJsp;
 
 import com.devEducation.service.MySqlService;
 
@@ -18,8 +18,9 @@ public class RemoveSongServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            new MySqlService().deleteSong(id);
+            String name = request.getParameter("name");
+            new MySqlService().deleteSong(name);
+            response.sendRedirect(request.getContextPath() + "/getAllSongServlet");
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

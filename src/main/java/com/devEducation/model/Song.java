@@ -2,6 +2,8 @@ package com.devEducation.model;
 
 public class Song {
 
+    private int id;
+
     private String name;
 
     private String genre;
@@ -18,7 +20,8 @@ public class Song {
 
     public Song() { }
 
-    public Song(String name, String genre, String artist, String album, String link, String time, String year) {
+    public Song(int id, String name, String genre, String artist, String album, String link, String time, String year) {
+        this.id = id;
         this.name = name;
         this.genre = genre;
         this.artist = artist;
@@ -26,6 +29,14 @@ public class Song {
         this.time = time;
         this.album = album;
         this.year = year;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getYear() {

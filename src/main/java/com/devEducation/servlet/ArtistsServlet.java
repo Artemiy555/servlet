@@ -1,8 +1,8 @@
 package com.devEducation.servlet;
 
 
-import com.devEducation.service.MySqlService;
 import com.devEducation.model.Artist;
+import com.devEducation.service.MySqlService;
 import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;

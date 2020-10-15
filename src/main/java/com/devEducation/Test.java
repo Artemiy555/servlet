@@ -8,31 +8,31 @@ import java.util.stream.Collectors;
 
 public class Test {
     public static void main(String[] args) {
-        List<Song> songs = new ArrayList<Song>();
-        songs.add(new Song(
-                "Karamel",
-                "Rap",
-                "Lsp",
-                "Karamel",
-                "////",
-                "3.20",
-                "2019"));
-        songs.add(new Song(
-                "Monet",
-                "Rap",
-                "Lsp",
-                "City",
-                "////",
-                "3.50",
-                "2018"));
-
-        List<String> genres =  songs.stream().map(Song::getGenre).distinct().collect(Collectors.toList());
-        System.out.println(genres);
-        List<Artist> artists = songs.stream().map(e -> new Artist(e.getArtist(),e.getGenre())).distinct().collect(Collectors.toList());
-        System.out.println(artists);
-        if (artists.get(0).equals(artists.get(1))){
-            System.out.println("Стримы сосутхуи");
-        }
+//        List<Song> songs = new ArrayList<Song>();
+//        songs.add(new Song(
+//                "Karamel",
+//                "Rap",
+//                "Lsp",
+//                "Karamel",
+//                "////",
+//                "3.20",
+//                "2019"));
+//        songs.add(new Song(
+//                "Monet",
+//                "Rap",
+//                "Lsp",
+//                "City",
+//                "////",
+//                "3.50",
+//                "2018"));
+//
+//        List<String> genres =  songs.stream().map(Song::getGenre).distinct().collect(Collectors.toList());
+//        System.out.println(genres);
+//        List<Artist> artists = songs.stream().map(e -> new Artist(e.getArtist(),e.getGenre())).distinct().collect(Collectors.toList());
+//        System.out.println(artists);
+//        if (artists.get(0).equals(artists.get(1))){
+//            System.out.println("Стримы сосутхуи");
+//        }
 //        List<Album> albums = songs.stream().distinct().map(e -> new Album(e.getArtist(), e.getAlbum(), e.getYear())).collect(Collectors.toList());
 //        System.out.println(albums);
 

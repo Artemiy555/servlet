@@ -36,7 +36,7 @@ public class GetAllSongServlet extends HttpServlet {
             }
             request.setAttribute("errorString", errorString);
             request.setAttribute("songs", songs);
-            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("allSong.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/allSong.jsp");
             dispatcher.forward(request, response);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {

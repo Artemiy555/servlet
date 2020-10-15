@@ -1,16 +1,11 @@
 package com.devEducation;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import com.devEducation.model.Song;
@@ -39,7 +34,7 @@ public class SongTag {
         return songs;
     }
 
-    public Song getTag(String fileLocation){
+    private Song getTag(String fileLocation){
         Song song = new Song();
         try {
             Mp3File mp3file = new Mp3File(fileLocation);
@@ -59,11 +54,6 @@ public class SongTag {
                 song.setTime(valueOf(mp3file.getLengthInSeconds()/60));
                 song.setLink(fileLocation);
 
-//                byte[] albumImageData = id3v2Tag.getAlbumImage();
-//                if (albumImageData != null) {
-//                    System.out.println("Have album image data, length: " + albumImageData.length + " bytes");
-//                    System.out.println("Album image mime type: " + id3v2Tag.getAlbumImageMimeType());
-//                }
             }
         } catch (IOException | UnsupportedTagException | InvalidDataException e) {
             //e.printStackTrace();
