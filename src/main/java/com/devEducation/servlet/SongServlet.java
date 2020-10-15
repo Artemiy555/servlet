@@ -24,6 +24,7 @@ public class SongServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         String artist = request.getParameter("artist");
         MySqlService mySqlService =new MySqlService();

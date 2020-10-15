@@ -42,6 +42,18 @@
                 <td><input type="text" name="album" value="${song.album}" /></td>
             </tr>
             <tr>
+                <td>link</td>
+                <td><input type="text" name="link" value="${song.link}"/></td>
+            </tr>
+            <tr>
+                <td>Time</td>
+                <td><input type="text" name="time" value="${song.time}"/></td>
+            </tr>
+            <tr>
+                <td>Year</td>
+                <td><input type="text" name="year" value="${song.year}"/></td>
+            </tr>
+            <tr>
                 <td colspan = "2">
                     <input type="submit" value="Submit" />
                     <a href="${pageContext.request.contextPath}/getAllSongServlet">Cancel</a>

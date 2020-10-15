@@ -18,6 +18,7 @@
 <p style="color: red;">${errorString}</p>
 
 <%--<input type="file" id="ctrl" webkitdirectory directory multiple/>--%>
+<a href="${pageContext.request.contextPath}/createSongServlet">Создать</a>
 
 <table border="1" cellpadding="5" cellspacing="1" >
     <tr>
@@ -26,6 +27,8 @@
         <th>Artist</th>
         <th>Album</th>
         <th>Time</th>
+        <th>Year</th>
+        <th>Link</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -37,11 +40,18 @@
             <td>${song.artist}</td>
             <td>${song.album}</td>
             <td>${song.time}</td>
+            <td>${song.year}</td>
+            <td>${song.link}</td>
             <td>
                 <a href="${pageContext.request.contextPath}/editServlet?id=${song.id}">Edit</a>
+<%--                <form action="${pageContext.request.contextPath}/editServlet?id=${song.id}" >--%>
+<%--                    <input type="submit" value="Edit"/>--%>
+<%--                </form>--%>
             </td>
             <td>
-                <a href="${pageContext.request.contextPath}/removeSong?name=${song.name}">Delete</a>
+                <form action="${pageContext.request.contextPath}/removeSong?id=${song.id}" method="post" if-match="*">
+                    <input type="submit" value="Remove"/>
+                </form>
             </td>
         </tr>
     </c:forEach>

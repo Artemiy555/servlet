@@ -273,14 +273,14 @@ public class MySqlService {
         }
     }
 
-    public void deleteSong(String name){
+    public void deleteSong(int id){
 
         try  {
             PreparedStatement statement =
                     c.prepareStatement(
-                            "DELETE FROM music.song WHERE name = ?"
+                            "DELETE FROM music.song WHERE ID = ?"
                     );
-            statement.setString(1, name);
+            statement.setInt(1, id);
             statement.execute();
 
             statement.close();
@@ -321,17 +321,19 @@ public class MySqlService {
         return song;
     }
 
-    public void updateSong(Song song,int id) {
+    public void updateSong(Song song) {
 
         try  {
             PreparedStatement upd = c.
                     prepareStatement(
-                            "UPDATE music.song SET name = ?, genre = ?, artist = ?, album = ? WHERE ID = ?");
+                            "UPDATE music.song SET name = ?, genre = ?, artist = ?, album = ?, time=?, link=? WHERE ID = ?");
             upd.setString(1, song.getName());
             upd.setString(2, song.getGenre());
             upd.setString(3, song.getArtist());
             upd.setString(4,song.getAlbum());
-            upd.setInt(5,id);
+            upd.setString(5,song.getTime());
+            upd.setString(6,song.getLink());
+            upd.setInt(7,song.getId());
             upd.execute();
             logger.info("Обновленная запись: " + song);
             upd.close();

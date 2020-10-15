@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
-import java.util.List;
 
-@WebServlet(name = "EditServlet", urlPatterns = "/editServlet")
-public class EditServlet extends HttpServlet {
+
+@WebServlet(name = "CreateSongServlet", urlPatterns = "/createSongServlet")
+public class CreateSongServlet extends HttpServlet {
     private static final long serialVersionUID = 1567877564;
     private static final Logger logger = Logger.getLogger(MySqlService.class.getSimpleName());
 
@@ -26,22 +26,11 @@ public class EditServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        MySqlService mySqlService = new MySqlService();
         PrintWriter out = response.getWriter();
 
         try {
-            String id =request.getParameter("id");
             String errorString = null;
-            Song song = null;
-            try {
-                song = mySqlService.selectSongById(Integer.parseInt(id));
-            }catch (Exception e){
-                e.printStackTrace();
-                errorString = e.getMessage();
-            }
-            request.setAttribute("errorString", errorString);
-            request.setAttribute("song", song);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/editSong.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createSong.jsp");
             dispatcher.forward(request, response);
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
@@ -59,7 +48,6 @@ public class EditServlet extends HttpServlet {
         MySqlService mySqlService = new MySqlService();
         PrintWriter out = response.getWriter();
         try {
-            int id = Integer.parseInt(request.getParameter("id"));
             String name = request.getParameter("name");
             String genre = request.getParameter("genre");
             String artist = request.getParameter("artist");
@@ -67,15 +55,16 @@ public class EditServlet extends HttpServlet {
             String link = request.getParameter("link");
             String time = request.getParameter("time");
             String year = request.getParameter("year");
-            Song song =new Song(id,name,genre,artist,album,link,time,year);
+            Song song = new Song(0,name,genre,artist,album,link,time,year);
             logger.info(song.toString());
-
-            mySqlService.insertGenre(Collections.singletonList(genre));
+            mySqlService.insertGenre(Collections.singletonList(song.getGenre()));
             mySqlService.insertArtist(Collections.singletonList(new Artist(artist, genre)));
-            mySqlService.insertAlbum(Collections.singletonList(new Album(artist, album, year)));
-            mySqlService.updateSong(song);
-            logger.info(song.toString());
+            mySqlService.insertAlbum(Collections.singletonList(new Album(artist, album, song.getYear())));
+            mySqlService.insertSong(Collections.singletonList(song));
+
+
             out.print(HttpServletResponse.SC_OK);
+            logger.info(HttpServletResponse.SC_OK);
             response.sendRedirect(request.getContextPath() + "/getAllSongServlet");
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
@@ -84,5 +73,4 @@ public class EditServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
 }

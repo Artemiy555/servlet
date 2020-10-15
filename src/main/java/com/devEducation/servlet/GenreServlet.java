@@ -18,9 +18,10 @@ public class GenreServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PrintWriter out = response.getWriter();
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-16");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
         //получаем все жанры с бд и запихиваем в json
         List<Genre> genres = new MySqlService().selectGenre();
         out.print(new Gson().toJson(genres));
