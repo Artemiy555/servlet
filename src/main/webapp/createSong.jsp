@@ -10,10 +10,11 @@
          pageEncoding="UTF-8" %>
 <html>
 <head>
-    <title>Edit Song</title>
+    <title>Create Song</title>
 </head>
-<body>
-<h3>Edit Song</h3>
+<body bgcolor="#c0c0c0">
+<center>
+<h3>Create Song</h3>
 
 <p style="color: red;">${errorString}</p>
 
@@ -56,5 +57,6 @@
         </tr>
     </table>
 </form>
+</center>
 </body>
 </html>

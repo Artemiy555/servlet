@@ -20,7 +20,7 @@ public class SongTag {
         List<Song> songs = new ArrayList<>();
 
         try (Stream<Path> paths = Files.walk(Paths.get(path))) {
-            paths
+            paths.parallel()
                     .filter(Files::isRegularFile)
                     .forEach(e -> {
                         if (String.valueOf(e).contains(".mp3")) {

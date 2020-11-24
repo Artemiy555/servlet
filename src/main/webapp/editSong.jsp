@@ -12,14 +12,15 @@
 <head>
     <title>Edit Song</title>
 </head>
-<body>
+<body bgcolor="#c0c0c0">
+<center>
 <h3>Edit Song</h3>
 
 <p style="color: red;">${errorString}</p>
 
 <c:if test="${not empty song}">
-    <form accept-charset="UTF-8" method="post" action="${pageContext.request.contextPath}/editServlet?id=${song.id}">
-        <input type="hidden" name="code" value="${song.id}" />
+    <form accept-charset="UTF-8" method="post" action="${pageContext.request.contextPath}/editServlet">
+        <input type="hidden" name="id" value="${song.id}" />
         <table border="0">
             <tr>
                 <td>Id</td>
@@ -62,5 +63,6 @@
         </table>
     </form>
 </c:if>
+</center>
 </body>
 </html>

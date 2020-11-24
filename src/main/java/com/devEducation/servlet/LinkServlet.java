@@ -32,9 +32,9 @@ public class LinkServlet extends HttpServlet {
         //по этой ссылке запихиваем в таблицы
         List<Song> songs = new SongTag().getListSongs(link);
 
-        List<String> genres = songs.stream().map(Song::getGenre).distinct().collect(Collectors.toList());
-        List<Artist> artists = songs.stream().distinct().map(e -> new Artist(e.getArtist(), e.getGenre())).collect(Collectors.toList());
-        List<Album> albums = songs.stream().distinct().map(e -> new Album(e.getArtist(), e.getAlbum(), e.getYear())).collect(Collectors.toList());
+        List<String> genres = songs.parallelStream().map(Song::getGenre).distinct().collect(Collectors.toList());
+        List<Artist> artists = songs.parallelStream().distinct().map(e -> new Artist(e.getArtist(), e.getGenre())).collect(Collectors.toList());
+        List<Album> albums = songs.parallelStream().distinct().map(e -> new Album(e.getArtist(), e.getAlbum(), e.getYear())).collect(Collectors.toList());
 
         MySqlService mySqlService = new MySqlService();
 //        mySqlService.deleteAll();

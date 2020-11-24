@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class MySqlUtil {
 
     private static final String USER = "root";
-    private static final String PASS = "root";
+    private static final String PASS = "bv8f58w2";
 
     private static final String URL_MYSQL =
-            "jdbc:mysql://34.67.123.43:3306?useSSL=false&useUnicode=true&serverTimezone=UTC";
+            "jdbc:mysql://34.121.230.88:3306?useSSL=false&useUnicode=true&serverTimezone=UTC";
 
     public static Connection getDBConnection() {
         try {

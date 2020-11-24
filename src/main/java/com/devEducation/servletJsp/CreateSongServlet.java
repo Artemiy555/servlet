@@ -29,7 +29,6 @@ public class CreateSongServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
-            String errorString = null;
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/createSong.jsp");
             dispatcher.forward(request, response);
             response.setStatus(HttpServletResponse.SC_OK);
@@ -55,13 +54,14 @@ public class CreateSongServlet extends HttpServlet {
             String link = request.getParameter("link");
             String time = request.getParameter("time");
             String year = request.getParameter("year");
-            Song song = new Song(0,name,genre,artist,album,link,time,year);
+
+            Song song = new Song(0, name, genre, artist, album, link, time, year);
             logger.info(song.toString());
+
             mySqlService.insertGenre(Collections.singletonList(song.getGenre()));
             mySqlService.insertArtist(Collections.singletonList(new Artist(artist, genre)));
             mySqlService.insertAlbum(Collections.singletonList(new Album(artist, album, song.getYear())));
             mySqlService.insertSong(Collections.singletonList(song));
-
 
             out.print(HttpServletResponse.SC_OK);
             logger.info(HttpServletResponse.SC_OK);
